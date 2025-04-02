@@ -1,6 +1,5 @@
 # View Planning for 3D Multi-Camera Calibration with an Industrial RobotK
 
-![WhatsApp Image 2024-12-16 at 12.14.15.jpeg](..%2FWhatsApp%20Image%202024-12-16%20at%2012.14.15.jpeg)
 
 ## Camera Calibration
 It is the process of estimating the internal and external parameters. Internal parameters such as focal length, skew, distortion and image center  
