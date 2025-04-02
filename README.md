@@ -68,7 +68,7 @@ The approach presented here takes inspiration from the work titled:
 ### Camera View (Frustum)
 View frustum is the 3D shape that represents the camera's field of view (FOV). The frustum is typically a pyramid-like shape, but with the top cut off (hence the "frustum" name). It defines the region of space that is visible to the camera. Any objects inside this frustum are visible on the screen, while those outside of it are not.
 
-### displaying angle and distant at real time
+### Displaying angle and distant at real time
 To calculate the distance and angle of viewpoints relative to the camera, we can define the camera's view axis (the direction the camera is pointing) and surface normal (which would represent the direction perpendicular to the target surface or plane).
 This angle is calculated using the dot product formula:
 ![equation.png](..%2F..%2F..%2FOneDrive%2FDesktop%2FFAPS%2Fequation.png)
