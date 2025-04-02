@@ -1,4 +1,4 @@
-# View Planning for 3D Multi-Camera Calibration with an Industrial RobotK
+# View Planning for 3D Multi-Camera Calibration with an Industrial Robotics
 
 
 ## Camera Calibration
