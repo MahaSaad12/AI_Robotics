@@ -5,7 +5,8 @@
 It is the process of estimating the internal and external parameters. Internal parameters such as focal length, skew, distortion and image center  
 where as external parameters are Translation and rotation matrices.
 
-
+## Flowchart of View planning 
+![Flowchart](/Flowchart_steps.png)
 ## Detailed Perspective of View planning in camera calibration
 ## Camera Calibration Guidelines
 
