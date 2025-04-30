@@ -1,16 +1,16 @@
-# 🎯 Multi-Sensor 3D View Planning & Calibration Toolkit
+#  Multi-Sensor 3D View Planning & Calibration Toolkit
 
 This repository contains a modular Python-based system for simulating and evaluating multi-camera calibration using a 3D calibration object (icosahedron) and multiple sensor viewpoints. Developed as part of a Master’s thesis at FAU Erlangen-Nürnberg.
 
 ---
 
-## 🧠 Overview
+##  Overview
 
 The project enables sensor visibility analysis, 3D visualization, and pose estimation using a structured and modular Python implementation. It evaluates how well sensors can detect different faces of a calibration object based on angles, distance, and orientation.
 
 ---
 
-## 🗂️ Project Structure
+##  Project Structure
 
 ```
 pythonProject1/
@@ -26,9 +26,9 @@ pythonProject1/
 
 ---
 
-## 🚀 Getting Started
+##  Getting Started
 
-### 🔧 Prerequisites
+### Prerequisites
 
 Make sure Python 3.8+ is installed. Then, install the required libraries:
 
@@ -36,7 +36,7 @@ Make sure Python 3.8+ is installed. Then, install the required libraries:
 pip install numpy pandas matplotlib PyQt5
 ```
 
-### ▶️ Running the 3D Viewer
+###  Running the 3D Viewer
 
 Navigate to the visualization folder or the main GUI file and run:
 
@@ -46,7 +46,7 @@ python orientation.py
 
 This will launch a dynamic 3D window showing sensor positions, visibility status, and live updates as the object rotates.
 
-### 📏 Accuracy Evaluation
+### Accuracy Evaluation
 
 To evaluate how accurately sensors detect the correct faces:
 
@@ -58,20 +58,20 @@ Ensure the file `sensor_distance.csv` is available in the same directory or upda
 
 ---
 
-## 📉 Sample Output
+## Sample Output
 
 ```
 Sensor 1:
-  ✅ Detected Face Indices : [0, 1, 3]
-  🎯 Expected Faces         : [0, 1, 5]
-  🎯 Correct Matches        : [0, 1]
-  📈 Accuracy Score         : 0.67
-  📏 Avg Distance           : 5.66
+  Detected Face Indices : [0, 1, 3]
+  Expected Faces         : [0, 1, 5]
+  Correct Matches        : [0, 1]
+  Accuracy Score         : 0.67
+  Avg Distance           : 5.66
 ```
 
 ---
 
-## 📘 Key Concepts
+## Key Concepts
 
 - **Sensor Visibility**: Determines how many icosahedron faces each sensor can see.
 - **GOOD/BAD Classification**: A sensor is labeled GOOD if it detects 5 or more faces.
@@ -80,7 +80,7 @@ Sensor 1:
 
 ---
 
-## 📄 Scientific Context
+## Scientific Context
 
 This project supports the academic thesis:
 
@@ -91,14 +91,14 @@ by Maha Saad — FAU Erlangen-Nürnberg, 2025
 
 ---
 
-## ❗ Troubleshooting
+## Troubleshooting
 
 - **FileNotFoundError**: Ensure CSV files like `Camera_calibration_object_poses.csv` are in the correct directory (e.g., `Calibration_object_data/`).
 - **GUI Not Launching**: Ensure PyQt5 is installed and you're running with a GUI-capable environment.
 
 ---
 
-## 📜 License
+## License
 
 This project is part of academic research. For reuse beyond educational purposes, contact the author.
 
