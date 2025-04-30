@@ -1,88 +1,113 @@
-# View Planning for 3D Multi-Camera Calibration with an Industrial Robotics
-![view points](/points.png)
 
-## Camera Calibration
-It is the process of estimating the internal and external parameters. Internal parameters such as focal length, skew, distortion and image center  
-where as external parameters are Translation and rotation matrices.
 
-## Flowchart of View planning 
-![Flowchart](/Flowchart_steps.png)
-## Detailed Perspective of View planning in camera calibration
-## Camera Calibration Guidelines
+# 🎯 Multi-Sensor 3D View Planning & Calibration Toolkit
 
-### 30-60 Degree Range
-Studies by Zhang (2000) and Heikkilä and Silvén (1997) show that capturing calibration images at a **30-60 degree angle** relative to the camera’s optical axis is most effective for estimating lens distortions, especially **radial and tangential distortions**, across the field of view.  
-This range captures oblique views that reveal peripheral distortions while avoiding excessive perspective distortion that can compromise corner detection.
+This repository contains a modular Python-based system for simulating and evaluating multi-camera calibration using a 3D calibration object (icosahedron) and multiple sensor viewpoints. Developed as part of a Master’s thesis at FAU Erlangen-Nürnberg.
 
-### Multi-Angle Approaches
-Researchers like Hartley and Zisserman (2004) emphasize using **multiple angles** (including both frontal and oblique views) to capture a more complete model of the camera's intrinsic and extrinsic parameters.  
-They suggest that images taken at both direct and sharp angles, combined with multiple distances, yield better calibration results.
+---
 
-### Frame Coverage Recommendation (50-80%)
-Several papers, including Zhang’s calibration method and further studies by Bouguet (2001), recommend that the calibration pattern cover **50-80%** of the image frame.  
-This coverage ensures that distortion information across the full image sensor is captured, especially for wide-angle lenses where peripheral distortions are pronounced.
+## 🧠 Overview
 
-### Varying Distances for Accuracy
-Research by Sturm and Maybank (1999) suggests that capturing images at varied distances from the camera is crucial for accurately estimating parameters like **focal length** and **skew**.  
-They recommend including both close and far distances, noting that close-up views provide fine detail for intrinsic calibration, while distant views are valuable for estimating extrinsic parameters, particularly in stereo calibration setups.
+The project enables sensor visibility analysis, 3D visualization, and pose estimation using a structured and modular Python implementation. It evaluates how well sensors can detect different faces of a calibration object based on angles, distance, and orientation.
 
-### Algorithm for view planning
+---
 
-## Greedy Multi-Sensor NBV Planning
+## 🗂️ Project Structure
 
-The **Greedy Multi-Sensor Next Best View (NBV) Planning Algorithm** refers to a planning approach used in robotics and autonomous systems, particularly for tasks like 3D mapping, object recognition, or environmental exploration, where the robot must decide which view or position to move to next in order to maximize the efficiency of data collection from multiple sensors.
-
-### Key Concepts
-
-#### 1. Multi-Sensor Systems
-In many robotic systems, multiple sensors (such as cameras, LiDAR, depth sensors, etc.) are used to collect data from the environment. Each sensor may provide different types of data (e.g., visual, depth, thermal), and the goal is to use these sensors efficiently to gain as much information as possible about the environment.
-
-#### 2. Next Best View (NBV) Problem
-The **Next Best View** problem involves deciding which position or viewpoint the robot should move to next in order to maximize the coverage of an unknown environment or to optimize the acquisition of data (e.g., for mapping or inspection purposes).
-
-The robot must plan the sequence of views it will take, considering factors like sensor capabilities, environmental constraints, and task objectives (e.g., visual coverage, object detection).
-
-#### 3. Greedy Algorithm
-A **greedy algorithm** makes locally optimal choices at each step with the hope of finding a globally optimal solution. In the context of NBV planning, the greedy approach would select the next best view based on immediate benefits such as maximizing sensor coverage or minimizing the number of additional viewpoints required.
-
-In a multi-sensor context, the greedy approach would take into account the information gain from all sensors, selecting the view that provides the maximum data across the sensors simultaneously.
-### Pseudocode:
-
-```plaintext
-Input: Partition matroid (Ω, I) of views
-Output: Independent set Ik ∈ I containing k planned views
-
-1: k ← 0, Ik ← ∅
-while ∃x ∈ Ω : Ik ∪ {x} ∈ I do
-    x* ← argmax x∈Ω s.t. Ik∪{x}∈I f(Ik ∪ {x}) − f(Ik)
-    Ik+1 ← Ik ∪ {x*}, Ω ← Ω \ {x*}, k ← k + 1
-end while
-return Ik
 ```
-### Source:
+pythonProject1/
+├── Calibration_object_data/       # Geometry or model data for the calibration object
+├── Pose_estimation_6/             # Multi-sensor or camera pose estimation logic
+├── Single_Sensor_testing/         # Scripts to test visibility of individual sensors
+├── System_initialization/         # Initialization code and configuration routines
+├── Testing/                       # Test scripts and experimental runs
+├── Visualisation/                 # 3D visualization and PyQt-based GUI tools
+├── README.md                      # Project documentation
+└── .venv/                         # Python virtual environment (excluded in .gitignore)
+```
 
-The approach presented here takes inspiration from the work titled:
+---
 
-- **"Multi-Sensor Next-Best-View Planning as Matroid-Constrained Submodular Maximization"**. This research explores the idea of solving the Next-Best-View problem by leveraging matroid constraints and submodular optimization techniques, which aligns with the concept of planning efficient multi-sensor data collection for autonomous systems.
-  - Citation: [Authors, Year].Lauri, M., Pajarinen, J., Peters, J., & Frintrop, S. (2020). Multi-sensor next-best-view planning as matroid-constrained submodular maximization. IEEE Robotics and Automation Letters, 5(4), 5323-5330.
+## 🚀 Getting Started
 
-### Camera View (Frustum)
-View frustum is the 3D shape that represents the camera's field of view (FOV). The frustum is typically a pyramid-like shape, but with the top cut off (hence the "frustum" name). It defines the region of space that is visible to the camera. Any objects inside this frustum are visible on the screen, while those outside of it are not.
+### 🔧 Prerequisites
 
-### Displaying angle and distant at real time
-To calculate the distance and angle of viewpoints relative to the camera, we can define the camera's view axis (the direction the camera is pointing) and surface normal (which would represent the direction perpendicular to the target surface or plane).
-This angle is calculated using the dot product formula:
-![equation.png](..%2F..%2F..%2FOneDrive%2FDesktop%2FFAPS%2Fequation.png)
-
-### Checking accuracy through Pyvista framework
-PiVista is a Python-based visualization library that integrates with PiCamera and provides easy-to-use tools for visualizing camera views and 3D scenes.Checking accuracy through PiVista can be done by comparing predicted camera positions, object detections, or viewpoint planning to ground truth data.
-## Install libraries
-Run the following commands to set up the environment:
+Make sure Python 3.8+ is installed. Then, install the required libraries:
 
 ```bash
-python -m ensurepip --upgrade
-pip install numpy
-python.exe -m pip install --upgrade pip
-pip install PyQt5
-pip install matplotlib
-pip install pyvista
+pip install numpy pandas matplotlib PyQt5
+```
+
+### ▶️ Running the 3D Viewer
+
+Navigate to the visualization folder or the main GUI file and run:
+
+```bash
+python orientation.py
+```
+
+This will launch a dynamic 3D window showing sensor positions, visibility status, and live updates as the object rotates.
+
+### 📏 Accuracy Evaluation
+
+To evaluate how accurately sensors detect the correct faces:
+
+```bash
+python accuracy_@.py
+```
+
+Ensure the file `sensor_distance.csv` is available in the same directory or update the path accordingly.
+
+---
+
+## 📉 Sample Output
+
+```
+Sensor 1:
+  ✅ Detected Face Indices : [0, 1, 3]
+  🎯 Expected Faces         : [0, 1, 5]
+  🎯 Correct Matches        : [0, 1]
+  📈 Accuracy Score         : 0.67
+  📏 Avg Distance           : 5.66
+```
+
+---
+
+## 📘 Key Concepts
+
+- **Sensor Visibility**: Determines how many icosahedron faces each sensor can see.
+- **GOOD/BAD Classification**: A sensor is labeled GOOD if it detects 5 or more faces.
+- **3D Visualization**: Real-time rendering of sensor frustums and face orientations.
+- **Evaluation Metrics**: Accuracy based on match between detected and expected faces.
+
+---
+
+## 📄 Scientific Context
+
+This project supports the academic thesis:
+
+**"View Planning for 3D Multi-Camera Calibration with an Industrial Robot"**  
+by Maha Saad — FAU Erlangen-Nürnberg, 2025
+
+
+
+---
+
+## ❗ Troubleshooting
+
+- **FileNotFoundError**: Ensure CSV files like `Camera_calibration_object_poses.csv` are in the correct directory (e.g., `Calibration_object_data/`).
+- **GUI Not Launching**: Ensure PyQt5 is installed and you're running with a GUI-capable environment.
+
+---
+
+## 📜 License
+
+This project is part of academic research. For reuse beyond educational purposes, contact the author.
+
+---
+
+## 🙋‍♀️ Author
+
+**Maha Saad**  
+Master’s Program in Artificial Intelligence  
+Friedrich-Alexander-Universität Erlangen-Nürnberg
