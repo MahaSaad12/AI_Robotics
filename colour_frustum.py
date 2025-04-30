@@ -1,0 +1,174 @@
+import sys
+import numpy as np
+import matplotlib.pyplot as plt
+from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QWidget, QTableWidget, QTableWidgetItem
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas, NavigationToolbar2QT as NavigationToolbar
+from matplotlib.figure import Figure
+from mpl_toolkits.mplot3d.art3d import Poly3DCollection, Line3DCollection
+
+class SensorPhaseViewerApp(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("Multi-Sensor Icosahedron Phase Viewer")
+        self.setGeometry(100, 100, 900, 700)
+
+        self.main_widget = QWidget()
+        self.setCentralWidget(self.main_widget)
+
+        layout = QVBoxLayout(self.main_widget)
+
+        # Create the table to display distances, angles, and visible faces
+        self.table = QTableWidget(self)
+        layout.addWidget(self.table)
+
+        self.canvas = PhaseCanvas(self, self.table)  # Pass table reference to PhaseCanvas
+        layout.addWidget(NavigationToolbar(self.canvas, self))
+        layout.addWidget(self.canvas)
+
+        self.show()
+
+class PhaseCanvas(FigureCanvas):
+    def __init__(self, parent=None, table=None):
+        self.fig = Figure()
+        self.ax = self.fig.add_subplot(111, projection="3d")
+        super().__init__(self.fig)
+        self.setParent(parent)
+
+        self.table = table  # Store the passed table reference
+        self.plot_sensor_and_phases()
+
+    def plot_sensor_and_phases(self):
+        sensor_positions = self.get_sensor_positions()
+        fov = 60
+        self.ax.view_init(elev=30, azim=45)
+
+        vertices, faces = self.get_icosahedron()
+        connection_lines = []  # Store sensor-to-face lines
+
+        # Define custom colors for each sensor (red, green, blue, orange, purple, black)
+        sensor_colors = ['red', 'green', 'blue', 'orange', 'purple', 'black']
+
+        distances = []  # Store distances
+        angles = []  # Store angles
+        visible_faces = []  # Store visible face indices
+
+        for sensor_idx, sensor_position in enumerate(sensor_positions):
+            frustum_color = sensor_colors[sensor_idx]  # Assign a color from the list
+
+            for face_idx, face in enumerate(faces):  # Iterate through faces with index
+                face_vertices = vertices[face]
+                face_center = np.mean(face_vertices, axis=0)
+                face_normal = self.calculate_face_normal(face_vertices)
+
+                view_vector = sensor_position - face_center
+                view_vector /= np.linalg.norm(view_vector)
+
+                dot_product = np.dot(face_normal, view_vector)
+                if dot_product > 0:  # Face is visible to the sensor
+                    poly = Poly3DCollection([face_vertices], alpha=0.4, edgecolor="black")
+                    self.ax.add_collection3d(poly)
+
+                    # Draw the frustum with the assigned color
+                    self.draw_view_frustum(sensor_position, face_center, fov, frustum_color)
+
+                    # Store sensor-to-face connection line
+                    connection_lines.append([sensor_position, face_center])
+
+                    # Store visible face index
+                    visible_faces.append(face_idx)
+
+                    # Calculate distance and angle
+                    distance = np.linalg.norm(sensor_position - face_center)
+                    angle = self.calculate_angle(view_vector, face_normal)
+
+                    # Append the distance and angle for the table
+                    distances.append(distance)
+                    angles.append(angle)
+
+            # Plot the sensor with its assigned color
+            self.ax.scatter(*sensor_position, color=frustum_color, label=f"Sensor {sensor_idx+1}", s=80)
+
+        # Draw all sensor-to-face lines with a colormap
+        connection_colors = plt.cm.viridis(np.linspace(0, 1, len(connection_lines)))
+        line_collection = Line3DCollection(connection_lines, colors=connection_colors, linewidths=1.5, alpha=0.8)
+        self.ax.add_collection3d(line_collection)
+
+        # Update the table with the calculated distances, angles, and face visibility
+        self.update_table(distances, angles, visible_faces)
+
+        # Labels and legend
+        self.ax.set_xlabel("X-axis", fontsize=12)
+        self.ax.set_ylabel("Y-axis", fontsize=12)
+        self.ax.set_zlabel("Z-axis", fontsize=12)
+        self.ax.legend(fontsize=10)
+        self.draw()
+
+    def get_sensor_positions(self):
+        return np.array([
+            [8, 0, 0], [-8, 0, 0],
+            [0, 8, 0], [0, -8, 0],
+            [0, 0, 8], [0, 0, -8]
+        ], dtype=np.float64)
+
+    def calculate_face_normal(self, face_vertices):
+        v1, v2, v3 = face_vertices
+        edge1 = v2 - v1
+        edge2 = v3 - v1
+        normal = np.cross(edge1, edge2)
+        return normal / np.linalg.norm(normal)
+
+    def get_icosahedron(self):
+        phi = (1 + np.sqrt(5)) / 2
+        a, b = 1, phi
+
+        vertices = np.array([[-a, b, 0], [a, b, 0], [-a, -b, 0], [a, -b, 0],
+                             [0, -a, b], [0, a, b], [0, -a, -b], [0, a, -b],
+                             [b, 0, -a], [b, 0, a], [-b, 0, -a], [-b, 0, a]])
+        vertices *= 5 / np.linalg.norm(vertices[0])
+
+        faces = np.array([
+            [0, 11, 5], [0, 5, 1], [0, 1, 7], [0, 7, 10], [0, 10, 11],
+            [1, 5, 9], [5, 11, 4], [11, 10, 2], [10, 7, 6], [7, 1, 8],
+            [3, 9, 4], [3, 4, 2], [3, 2, 6], [3, 6, 8], [3, 8, 9],
+            [4, 9, 5], [2, 4, 11], [6, 2, 10], [8, 6, 7], [9, 8, 1]
+        ])
+        return vertices, faces
+
+    def calculate_angle(self, view_vector, face_normal):
+        cos_angle = np.dot(view_vector, face_normal)
+        return np.degrees(np.arccos(np.clip(cos_angle, -1.0, 1.0)))  # Convert to degrees
+
+    def draw_view_frustum(self, sensor_position, face_center, fov, frustum_color):
+        direction = face_center - sensor_position
+        direction /= np.linalg.norm(direction)
+
+        # Define frustum end points
+        frustum_length = 10
+        frustum_end = sensor_position + direction * frustum_length
+
+        # Create frustum lines with thinner width
+        frustum_lines = [[sensor_position, frustum_end]]
+        line_collection = Line3DCollection(frustum_lines, colors=[frustum_color], linewidths=0.1, alpha=0.8)
+        self.ax.add_collection3d(line_collection)
+
+    def update_table(self, distances, angles, visible_faces):
+        if self.table is None:
+            print("Error: Table reference is missing!")
+            return
+
+        rows = len(distances)
+        self.table.setRowCount(rows)
+        self.table.setColumnCount(4)  # 4 columns: Sensor, Face Index, Distance, Angle
+
+        self.table.setHorizontalHeaderLabels(["Sensor", "Face", "Distance", "Angle"])
+
+        for i in range(rows):
+            self.table.setItem(i, 0, QTableWidgetItem(f"Sensor {(i // 6) + 1}"))
+            self.table.setItem(i, 1, QTableWidgetItem(f"Face {visible_faces[i]}"))
+            self.table.setItem(i, 2, QTableWidgetItem(f"{distances[i]:.2f}"))
+            self.table.setItem(i, 3, QTableWidgetItem(f"{angles[i]:.2f}°"))
+
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    viewer = SensorPhaseViewerApp()
+    sys.exit(app.exec_())
