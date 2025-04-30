@@ -80,7 +80,7 @@ Sensor 1:
 
 ## Scientific Context
 
-This project supports the academic thesis:
+This project supports the academic Report:
 
 **"View Planning for 3D Multi-Camera Calibration with an Industrial Robot"**  
 by Maha Saad — FAU Erlangen-Nürnberg, 2025
