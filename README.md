@@ -54,7 +54,7 @@ python accuracy_@.py
 
 Ensure the file `sensor_distance.csv` is available in the same directory or update the path accordingly.
 
----
+
 
 ## Sample Output
 
@@ -67,7 +67,7 @@ Sensor 1:
   Avg Distance           : 5.66
 ```
 
----
+
 
 ## Key Concepts
 
@@ -87,20 +87,20 @@ by Maha Saad — FAU Erlangen-Nürnberg, 2025
 
 
 
----
+
 
 ## Troubleshooting
 
 - **FileNotFoundError**: Ensure CSV files like `Camera_calibration_object_poses.csv` are in the correct directory (e.g., `Calibration_object_data/`).
 - **GUI Not Launching**: Ensure PyQt5 is installed and you're running with a GUI-capable environment.
 
----
+
 
 ## License
 
 This project is part of academic research. For reuse beyond educational purposes, contact the author.
 
----
+
 
 ## 🙋‍♀️ Author
 
