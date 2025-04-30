@@ -58,7 +58,7 @@ python accuracy_@.py
 ```
 
 Ensure the file `sensor_distance.csv` is available in the same directory or update the path accordingly.
-![Output of Accuracy_evalution](./Accuracy.png)  
+![Output of Accuracy_evalution]( ./Accuracy.png)  
 *Figure:Sensor Accuracy and Distance Evaluation. Face detection accuracy and average
 distance per sensor. 
 
