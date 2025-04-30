@@ -87,7 +87,7 @@ This project supports the academic thesis:
 **"View Planning for 3D Multi-Camera Calibration with an Industrial Robot"**  
 by Maha Saad — FAU Erlangen-Nürnberg, 2025
 
-📄 Full Report: `Maha_saad_FAPS_View_planning.pdf`
+
 
 ---
 
