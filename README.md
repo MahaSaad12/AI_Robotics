@@ -2,13 +2,13 @@
 
 This repository contains a modular Python-based system for simulating and evaluating multi-camera calibration using a 3D calibration object (icosahedron) and multiple sensor viewpoints. Developed as part of a Master’s thesis at FAU Erlangen-Nürnberg.
 
----
+
 
 ##  Overview
 
 The project enables sensor visibility analysis, 3D visualization, and pose estimation using a structured and modular Python implementation. It evaluates how well sensors can detect different faces of a calibration object based on angles, distance, and orientation.
 
----
+
 
 ##  Project Structure
 
@@ -22,9 +22,7 @@ pythonProject1/
 ├── Visualisation/                 # 3D visualization and PyQt-based GUI tools
 ├── README.md                      # Project documentation
 └── .venv/                         # Python virtual environment (excluded in .gitignore)
-```
 
----
 
 ##  Getting Started
 
