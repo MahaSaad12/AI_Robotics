@@ -41,8 +41,7 @@ Navigate to the visualization folder or the main GUI file and run:
 ```bash
 python orientation.py
 ```
-(![3D Sensor View](https://raw.githubusercontent.com/MahaSaad12/AI_Robotics/main/final_figure.png)
-)
+(![3D Sensor View](./Final_figure (1).png))
 
 *Figure: 3D Sensor View Visualization.The six sensors are positioned symmetrically around
 the calibration object, illustrating direction vectors and face visibility.
