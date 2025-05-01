@@ -56,18 +56,16 @@ Ensure the file `sensor_distance.csv` is available in the same directory or upda
 ![Output of Accuracy_evalution]( ./Accuracy.png)  
 *Figure:Sensor Accuracy and Distance Evaluation. Face detection accuracy and average
 distance per sensor. 
+ **Sensor**: Identifies the sensor being evaluated.
+- **Detected Faces**: The top 3 face indices (rows) with the lowest measured distances, interpreted as the sensor’s guesses of visible targets.
+- **Expected Faces**: The correct (ground truth) face indices that the sensor should have detected.
+- **Correct Matches**: Intersection between Detected and Expected faces — i.e., correctly identified targets.
+- **Accuracy Score**:
+  - Formula: `Accuracy = Number of Correct Matches ÷ Number of Expected Faces`
+- **Avg Distance**: Mean of all distances recorded by the sensor to each face.
+  - Lower distance = better proximity or fewer occlusions
 
-Sensor: Identifies the sensor being evaluated.
-■ Detected Faces: The top 3 face indices (rows) with the lowest measured distances, interpreted
-as the sensor’s guesses of visible targets.
-■ Expected Faces: The correct/ground truth face indices that the sensor should have detected.
-■ Correct Matches: Intersection between Detected and Expected faces — i.e., correctly identified
-targets.
-■ Accuracy Score: Accuracy = Number of Correct Matches
-Number of Expected Faces
-■ Avg Distance: Mean of all distances recorded by the sensor to each face — a lower value
-generally means better proximity or fewer occlusions
-## Sample Output
+##  Output for optimization
 
 ```
 Sensor 1:
