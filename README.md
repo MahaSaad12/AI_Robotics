@@ -3,10 +3,6 @@
 This repository contains a modular Python-based system for simulating and evaluating multi-camera calibration using a 3D calibration object (icosahedron) and multiple sensor viewpoints. Developed as part of a Master’s thesis at FAU Erlangen-Nürnberg.
 
 
-### 🧭 Methodology Workflow
-![Workflow](./Workflow.png)  
-*Figure: Workflow for evaluating and classifying sensor views using Euler angle and face visibility checks.*
-
 
 ##  Overview
 
@@ -45,7 +41,7 @@ Navigate to the visualization folder or the main GUI file and run:
 ```bash
 python orientation.py
 ```
-![3D view](./Final_figure (1).png)
+![3D view](Final_figure (1).png)
 
 *Figure: 3D Sensor View Visualization.The six sensors are positioned symmetrically around
 the calibration object, illustrating direction vectors and face visibility.
