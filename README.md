@@ -22,7 +22,7 @@ pythonProject1/
 ├── Visualisation/                 # 3D visualization and PyQt-based GUI tools
 ├── README.md                      # Project documentation
 └── .venv/                         # Python virtual environment (excluded in .gitignore)
-
+```
 
 ##  Getting Started
 
