@@ -2,6 +2,7 @@
 
 This repository contains a modular Python-based system for simulating and evaluating multi-camera calibration using a 3D calibration object (icosahedron) and multiple sensor viewpoints. Developed as part of a Master’s thesis at FAU Erlangen-Nürnberg.
 
+![Project Logo]view_points.png)
 
 
 ##  Overview
